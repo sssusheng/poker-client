@@ -1,5 +1,4 @@
 #include "cards.h"
-#include "datamanager.h"
 #include <QRandomGenerator>
 #include <QDebug>
 
@@ -15,12 +14,12 @@ Cards::Cards(const Card &card)
 
 void Cards::add(const Card &card)
 {
-    m_cards.append(card);
+    m_cards.insert(card);
 }
 
 void Cards::add(const Cards &cards)
 {
-    m_cards.append(cards.m_cards);
+    m_cards.unite(cards.m_cards);
 }
 
 void Cards::add(const QVector<Cards> &cards)
@@ -45,23 +44,12 @@ Cards &Cards::operator <<(const Cards &cards)
 
 void Cards::remove(const Card &card)
 {
-    m_cards.removeOne(card);
+    m_cards.remove(card);
 }
 
 void Cards::remove(const Cards &cards)
 {
-    // m_cards.subtract(cards.m_cards);
-    for(auto& item :cards.m_cards)
-    {
-        for(auto& it : m_cards)
-        {
-            if(item == it)
-            {
-                remove(item);
-                break;
-            }
-        }
-    }
+    m_cards.subtract(cards.m_cards);
 }
 
 void Cards::remove(const QVector<Cards> &cards)
@@ -78,11 +66,6 @@ int Cards::cardCount()
 }
 
 bool Cards::isEmpty()
-{
-    return m_cards.isEmpty();
-}
-
-bool Cards::isEmpty() const
 {
     return m_cards.isEmpty();
 }
@@ -144,36 +127,17 @@ bool Cards::contains(const Card &card)
 
 bool Cards::contains(const Cards &cards)
 {
-    //return m_cards.contains(cards.m_cards);
-    bool flag = true;
-    for(auto& item : cards.m_cards)
-    {
-        if(!m_cards.contains(item))
-        {
-            flag = false;
-            break;
-        }
-    }
-    return flag;
+    return m_cards.contains(cards.m_cards);
 }
 
 Card Cards::takeRandomCard()
 {
-    Card card;
-    if(!DataManager::getInstance()->isNetworkMode())
-    {
-        // 生成一个随机数
-        int num = QRandomGenerator::global()->bounded(m_cards.size());
-        auto it = m_cards.begin();
-        for(int i=0; i<num; ++i, ++it);
-        card = *it;
-        m_cards.erase(it);
-
-    }
-    else
-    {
-        card = m_cards.takeFirst();
-    }
+    // 生成一个随机数
+    int num = QRandomGenerator::global()->bounded(m_cards.size());
+    QSet<Card>::const_iterator it = m_cards.constBegin();
+    for(int i=0; i<num; ++i, ++it);
+    Card card = *it;
+    m_cards.erase(it);
     return card;
 }
 

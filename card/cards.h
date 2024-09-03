@@ -30,7 +30,6 @@ public:
     int cardCount();
     // 是否为空
     bool isEmpty();
-    bool isEmpty() const;
     void clear();
 
     // 最大点数
@@ -54,8 +53,7 @@ public:
     void printAllCardInfo();
 
 private:
-    QList<Card> m_cards;
-    // QSet<Card> m_cards;
+    QSet<Card> m_cards;
 };
 
 #endif // CARDS_H
