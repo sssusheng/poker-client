@@ -2,10 +2,9 @@
 #define ROBOTPLAYHAND_H
 
 #include "player.h"
+#include <QRunnable>
 
-#include <QThread>
-
-class RobotPlayHand : public QThread
+class RobotPlayHand : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
