@@ -52,7 +52,7 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
-build
-images
-music
+build/
+images/
+music/
 
