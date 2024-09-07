@@ -6,8 +6,5 @@ aux_source_directory(./ SRC)
 file(GLOB HEADERS ${PROJECT_SOURCE_DIR}/*.h)
 
 # # 将当前目录下的源文件制作成静态库
-add_library(thread ${SRC} ${HEADERS}
-#     communication.h communication.cpp
-#     taskqueue.h taskqueue.cpp
-)
+add_library(thread ${SRC} ${HEADERS})
 target_link_libraries(thread PRIVATE Qt${QT_VERSION_MAJOR}::Core)
